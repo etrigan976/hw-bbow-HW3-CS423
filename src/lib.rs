@@ -64,9 +64,19 @@ impl<'a> Bbow<'a> {
     /// assert_eq!(2, bbow.len());
     /// assert_eq!(1, bbow.match_count("hello"));
     /// ```
+    /// Function Notes
     pub fn extend_from_text(mut self, target: &'a str) -> Self {
-        todo!();
-
+        for word in target.split_whitespace() {
+            let word = word.trim_matches(|c: char| !c.is_alphabetic());
+            if is_word(word) {
+                let word = if has_uppercase(word) {
+                    Cow::Owned(word.to_lowercase())
+                } else {
+                    Cow::Borrowed(word)
+                };
+                *self.0.entry(word).or_insert(0) += 1;
+            }
+        }
         self
     }
 
@@ -84,8 +94,12 @@ impl<'a> Bbow<'a> {
     ///     .extend_from_text("b b b-banana b");
     /// assert_eq!(3, bbow.match_count("b"));
     /// ```
+    /// Function Notes
     pub fn match_count(&self, keyword: &str) -> usize {
-        todo!()
+        if !is_word(keyword) {
+            return 0;
+        }
+        self.0.get(keyword).cloned().unwrap_or(0)
     }
 
     pub fn words(&'a self) -> impl Iterator<Item=&'a str> {
@@ -104,7 +118,7 @@ impl<'a> Bbow<'a> {
     /// assert_eq!(3, bbow.count());
     /// ```
     pub fn count(&self) -> usize {
-        todo!()
+        self.0.values().sum()
     }
 
     /// Count the number of unique words contained in this BBOW,
@@ -119,11 +133,11 @@ impl<'a> Bbow<'a> {
     /// assert_eq!(2, bbow.len());
     /// ```
     pub fn len(&self) -> usize {
-        todo!()
+        self.0.len()
     }
 
     /// Is this BBOW empty?
     pub fn is_empty(&self) -> bool {
-        todo!()
+        self.0.is_empty()
     }
 }
