@@ -131,7 +131,7 @@ impl<'a> Bbow<'a> {
     /// ```
     /// # Function Notes
     /// ## count(&self) -> usize
-    /// counts the number of contained words in the bbow including 
+    /// counts the number of contained words in the bbow including
     /// multi-occurance words
     pub fn count(&self) -> usize {
         self.0.values().sum()
@@ -150,7 +150,7 @@ impl<'a> Bbow<'a> {
     /// ```
     /// # Function Notes
     /// ## len(&self) -> usize
-    /// counts number of unique contained words 
+    /// counts number of unique contained words
     pub fn len(&self) -> usize {
         self.0.len()
     }
@@ -165,9 +165,9 @@ impl<'a> Bbow<'a> {
 }
 /// # Testing Area
 /// I tried to do pretty thorough tests
-/// it was a lot of copy and pasting and 
+/// it was a lot of copy and pasting and
 /// tweaking the same test
-/// i only tested extend_from_text and match_count because it didnt seem 
+/// i only tested extend_from_text and match_count because it didnt seem
 /// necesarry for something like count
 #[cfg(test)]
 mod tests {
